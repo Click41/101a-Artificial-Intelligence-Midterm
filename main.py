@@ -63,6 +63,7 @@ def main():
     # ################ LOADING DATA SETS ################
     # reliability datasets - the col reliability_percentage = % of buses that are ON TIME (1 - % = late)
     # unreliable_percentage = % of times/buses that are late
+    # now contains columns for temp in Celsius/precip for that day 
     reliability_553 = pd.read_csv('./data/MBTA_Bus_Reliability_Bus553.csv')
     reliability = pd.read_csv('./data/MBTA_Bus_Reliability.csv')
     # alerts - gives dates buses are receiving alerts (particularly for delays) + reason
@@ -76,11 +77,7 @@ def main():
     ## can takeout if we decide to use all 4 separately, just make sure to change function
 
     ### add in extra lines for more data
-<<<<<<< HEAD
-    print(combined_data.head())
-=======
     # print(reliability.head())
->>>>>>> dc84f2389b7ef2a46b4011316deb4721b3dc208f
 
     # ################ CALL PREPROCESSING FUNCTION ################
     processed_data = preprocess_data(combined_data)
