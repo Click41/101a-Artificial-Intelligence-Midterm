@@ -79,6 +79,9 @@ def main():
     # ################ CALL PREPROCESSING FUNCTION ################
     processed_data = preprocess_data(combined_data)
     
+    # x = precip + temp + bus route
+    # y = % buses late
+
     # calls testing function built into scikit-learn library
     X_train, X_test, y_train, y_test = train_test_split(processed_data.drop('target_column', axis=1), 
                                                     processed_data['target_column'], 
