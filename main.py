@@ -8,24 +8,21 @@ def preprocess_data(dataset):
     
     return dataset 
 
-def evaluation_model(model, x-test, y-test):
+def evaluation_model(model, X_test, y_test): ## if have other parameters, add them in here
         
-        # where we evaluate the model
-        ## predictions
-        ## accuracy
+    # where we evaluate the model
+    ## predictions
+    ## accuracy
         
-        return model 
+    return model 
     
 def main():
     
-    # loading dataset
+    # loading datasets
     reliability_553 = pd.read_csv('data/MBTA_Reliability_Bus553.csv')
     reliability = pd.read_csv('data/MBTA_Reliability.csv')
     alerts = pd.read_csv('data/BUS_Service_Alerts.csv') 
     boston_weather = pd.read_csv('data/boston_weather.csv')
-
-    ### add in extra lines for more data
-    print(dataset.head())
 
     # call preprocessing function
     
