@@ -44,10 +44,9 @@ def preprocess_data(dataset):
 
     # Assuming you want to concatenate the preprocessed features and target variable
     dataset_preprocessed = pd.concat([pd.DataFrame(X_preprocessed), y], axis=1)
-
+    
     return dataset_preprocessed
     
-    return dataset 
 
 def evaluation_model(model, X_test, y_test): ## if have other parameters, add them in here
         
