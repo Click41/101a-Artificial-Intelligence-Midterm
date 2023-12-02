@@ -1,4 +1,7 @@
 import pandas as pd
+from sklearn.naive_bayes import GaussianNB
+from sklearn.model_selection import train_test_split
+
 # will have to add in more imports as we go along depending on what we use
 ###scikit-learn is what we are using
 
@@ -31,16 +34,13 @@ def main():
 
     # ################ CALL PREPROCESSING FUNCTION ################
     
-    ### choose model
-    # When we talk about choosing a model like the Random Forest Classifier, 
-    # we're referring to selecting a machine learning algorithm that suits 
-    # the nature of your data and the problem you're trying to solve. 
-    # The Random Forest Classifier is one specific algorithm, and 
-    # it's part of the scikit-learn library in Python.
+    # model from scikit-learn library
+    model = GaussianNB() # Gaussian Naive Bayes
     
-    #train model that we choose specific to what weneed
+    #train (like train a dog) model that we choose (from scikit-learn library) specific to what we need
+    model.fit(X_train, y_train) # where X_train is the training data and y_train is the target labels
     
-    # call evaluation function
+    # ################ CALL EVALUATION FUNCTION ################
     
 if __name__ == '__main__':
     main()
