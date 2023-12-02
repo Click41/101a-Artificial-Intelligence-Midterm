@@ -24,9 +24,14 @@ def main():
 
     # call preprocessing function
     
-    # choose model but what model?
+    ### choose model
+    # When we talk about choosing a model like the Random Forest Classifier, 
+    # we're referring to selecting a machine learning algorithm that suits 
+    # the nature of your data and the problem you're trying to solve. 
+    # The Random Forest Classifier is one specific algorithm, and 
+    # it's part of the scikit-learn library in Python.
     
-    #train model?
+    #train model that we choose specific to what weneed
     
     # call evaluation function
     
