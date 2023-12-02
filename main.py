@@ -29,7 +29,7 @@ def main():
     ### add in extra lines for more data
     print(reliability.head())
 
-    # call preprocessing function
+    # ################ CALL PREPROCESSING FUNCTION ################
     
     ### choose model
     # When we talk about choosing a model like the Random Forest Classifier, 
