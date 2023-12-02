@@ -66,7 +66,6 @@ def main():
     reliability = pd.read_csv('./data/MBTA_Bus_Reliability.csv')
     # alerts - gives dates buses are receiving alerts (particularly for delays) + reason
     alerts = pd.read_csv('data/BUS_Service_Alerts.csv') 
-    alerts = pd.read_csv('data/BUS_Service_Alerts.csv')
     # gives weather (avg temp + precipitation) for boston area
     boston_weather = pd.read_csv('data/boston_weather.csv')
     
