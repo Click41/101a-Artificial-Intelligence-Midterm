@@ -1,13 +1,51 @@
 import pandas as pd
 from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
 
 # will have to add in more imports as we go along depending on what we use
 ###scikit-learn is what we are using
 
 def preprocess_data(dataset):
     
-    # where format our data to make sure everything matches for reading
+    ############where format our data to make sure everything matches for reading
+    ### can change according to what we need
+    
+     # Assuming dataset has features (X) and target variable (y)
+    X = dataset.drop('target_column', axis=1)
+    y = dataset['target_column']
+
+    # Identify numerical and categorical features
+    numerical_features = X.select_dtypes(include=['int64', 'float64']).columns
+    categorical_features = X.select_dtypes(include=['object']).columns
+
+    # Create preprocessing pipeline
+    numerical_transformer = Pipeline(steps=[
+        ('imputer', SimpleImputer(strategy='mean')),
+        ('scaler', StandardScaler())
+    ])
+
+    categorical_transformer = Pipeline(steps=[
+        ('imputer', SimpleImputer(strategy='most_frequent')),
+        ('onehot', OneHotEncoder(handle_unknown='ignore'))
+    ])
+
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ('num', numerical_transformer, numerical_features),
+            ('cat', categorical_transformer, categorical_features)
+        ])
+
+    # Preprocess the data
+    X_preprocessed = preprocessor.fit_transform(X)
+
+    # Assuming you want to concatenate the preprocessed features and target variable
+    dataset_preprocessed = pd.concat([pd.DataFrame(X_preprocessed), y], axis=1)
+
+    return dataset_preprocessed
     
     return dataset 
 
@@ -29,11 +67,16 @@ def main():
     alerts = pd.read_csv('data/BUS_Service_Alerts.csv') 
     # gives weather (avg temp + precipitation) for boston area
     boston_weather = pd.read_csv('data/boston_weather.csv')
+    
+    ## combines datasets into one dataframe
+    combined_data = pd.concat([reliability_553, reliability, alerts, boston_weather], axis=1)
+    ## can takeout if we decide to use all 4 separately, just make sure to change function
 
     ### add in extra lines for more data
     print(reliability.head())
 
     # ################ CALL PREPROCESSING FUNCTION ################
+    processed_data = preprocess_data(combined_data)
     
     # model from scikit-learn library
     model = GaussianNB() # Gaussian Naive Bayes
