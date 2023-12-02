@@ -1,5 +1,6 @@
 import pandas as pd
 # will have to add in more imports as we go along depending on what we use
+###scikit-learn is what we are using
 
 def preprocess_data(dataset):
     
