@@ -19,6 +19,7 @@ def evaluation_model(model, X_test, y_test): ## if have other parameters, add th
 def main():
     # ################ LOADING DATA SETS ################
     # reliability datasets - the col reliability_percentage = % of buses that are ON TIME (1 - % = late)
+    # unreliable_percentage = % of times/buses that are late
     reliability_553 = pd.read_csv('data/MBTA_Reliability_Bus553.csv')
     reliability = pd.read_csv('data/MBTA_Reliability.csv')
     # alerts - gives dates buses are receiving alerts (particularly for delays) + reason
