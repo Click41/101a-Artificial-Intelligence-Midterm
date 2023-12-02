@@ -18,14 +18,17 @@ def evaluation_model(model, x-test, y-test):
     
 def main():
     
-    # loading dataset
+    # ################ LOADING DATA SETS ################
+    # reliability datasets - the col reliability_percentage = % of buses that are ON TIME (1 - % = late)
     reliability_553 = pd.read_csv('data/MBTA_Reliability_Bus553.csv')
     reliability = pd.read_csv('data/MBTA_Reliability.csv')
+    # alerts - gives dates buses are receiving alerts (particularly for delays) + reason
     alerts = pd.read_csv('data/BUS_Service_Alerts.csv') 
+    # gives weather (avg temp + precipitation) for boston area
     boston_weather = pd.read_csv('data/boston_weather.csv')
 
     ### add in extra lines for more data
-    print(dataset.head())
+    print(reliability.head())
 
     # call preprocessing function
     
