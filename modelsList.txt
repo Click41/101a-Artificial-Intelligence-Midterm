@@ -1,0 +1,65 @@
+------------Classification Models:------------
+Support Vector Machines (SVM):
+
+from sklearn.svm import SVC
+K-Nearest Neighbors (KNN):
+
+from sklearn.neighbors import KNeighborsClassifier
+Decision Trees:
+
+from sklearn.tree import DecisionTreeClassifier
+Gradient Boosting (e.g., XGBoost):
+
+from xgboost import XGBClassifier
+Naive Bayes:
+
+from sklearn.naive_bayes import GaussianNB
+
+----------------Regression Models:--------------
+Linear Regression:
+
+from sklearn.linear_model import LinearRegression
+Lasso Regression:
+
+from sklearn.linear_model import Lasso
+Ridge Regression:
+
+from sklearn.linear_model import Ridge
+Random Forest Regressor:
+
+from sklearn.ensemble import RandomForestRegressor
+Support Vector Machines (SVM) for Regression:
+
+from sklearn.svm import SVR
+
+--------------Clustering Models:------------
+K-Means:
+
+from sklearn.cluster import KMeans
+Hierarchical Clustering:
+
+from sklearn.cluster import AgglomerativeClustering
+DBSCAN (Density-Based Spatial Clustering of Applications with Noise):
+
+from sklearn.cluster import DBSCAN
+Dimensionality Reduction Models:
+Principal Component Analysis (PCA):
+
+from sklearn.decomposition import PCA
+t-Distributed Stochastic Neighbor Embedding (t-SNE):
+
+from sklearn.manifold import TSNE
+
+-------------------Ensemble Models:-------------------
+Voting Classifier:
+
+from sklearn.ensemble import VotingClassifier
+Bagging (e.g., BaggingClassifier):
+
+from sklearn.ensemble import BaggingClassifier
+AdaBoost:
+
+from sklearn.ensemble import AdaBoostClassifier
+Gradient Boosting (e.g., GradientBoostingClassifier):
+
+from sklearn.ensemble import GradientBoostingClassifier
