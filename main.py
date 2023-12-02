@@ -15,8 +15,8 @@ def preprocess_data(dataset):
     ### can change according to what we need
     
      # Assuming dataset has features (X) and target variable (y)
-    X = dataset.drop('target_column', axis=1)
-    y = dataset['target_column']
+    X = dataset.drop('target_column', axis=1) ## reliable percentage
+    y = dataset['target_column'] ## unreliable percentage (Ai should be predicting)
     ## i think correlates to X_train, X_test, y_train, y_test
 
     # Identify numerical and categorical features
