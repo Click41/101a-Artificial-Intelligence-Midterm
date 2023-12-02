@@ -8,13 +8,13 @@ def preprocess_data(dataset):
     
     return dataset 
 
-def evaluation_model(model, x-test, y-test):
+def evaluation_model(model, X_test, y_test): ## if have other parameters, add them in here
         
-        # where we evaluate the model
-        ## predictions
-        ## accuracy
+    # where we evaluate the model
+    ## predictions
+    ## accuracy
         
-        return model 
+    return model 
     
 def main():
     
