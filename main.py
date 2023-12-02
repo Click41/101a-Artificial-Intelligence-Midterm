@@ -73,7 +73,7 @@ def main():
     ## can takeout if we decide to use all 4 separately, just make sure to change function
 
     ### add in extra lines for more data
-    print(reliability.head())
+    print(combined_data.head())
 
     # ################ CALL PREPROCESSING FUNCTION ################
     processed_data = preprocess_data(combined_data)
