@@ -61,6 +61,7 @@ def main():
     # ################ LOADING DATA SETS ################
     # reliability datasets - the col reliability_percentage = % of buses that are ON TIME (1 - % = late)
     # unreliable_percentage = % of times/buses that are late
+    # now contains columns for temp in Celsius/precip for that day 
     reliability_553 = pd.read_csv('./data/MBTA_Bus_Reliability_Bus553.csv')
     reliability = pd.read_csv('./data/MBTA_Bus_Reliability.csv')
     # alerts - gives dates buses are receiving alerts (particularly for delays) + reason
