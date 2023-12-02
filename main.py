@@ -70,17 +70,13 @@ def main():
     boston_weather = pd.read_csv('data/boston_weather.csv')
     
 
-    ## combines datasets into one dataframe
-    combined_data = pd.concat([reliability_553, reliability, alerts, boston_weather], axis=1)
-    print(combined_data.columns)
     ## can takeout if we decide to use all 4 separately, just make sure to change function
 
     ### add in extra lines for more data
-    print(combined_data.head())
-    # print(reliability.head())
+    print(reliability.head())
 
     # ################ CALL PREPROCESSING FUNCTION ################
-    processed_data = preprocess_data(combined_data)
+    processed_data = preprocess_data(reliability)
 
     ## split data into training-testing sets
     # x = precip + temp + bus route
