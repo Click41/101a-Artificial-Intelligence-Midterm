@@ -17,6 +17,7 @@ def preprocess_data(dataset):
      # Assuming dataset has features (X) and target variable (y)
     X = dataset.drop('target_column', axis=1)
     y = dataset['target_column']
+    ## i think correlates to X_train, X_test, y_train, y_test
 
     # Identify numerical and categorical features
     numerical_features = X.select_dtypes(include=['int64', 'float64']).columns
@@ -77,13 +78,21 @@ def main():
     # ################ CALL PREPROCESSING FUNCTION ################
     processed_data = preprocess_data(combined_data)
     
+    # calls testing function built into scikit-learn library
+    X_train, X_test, y_train, y_test = train_test_split(processed_data.drop('target_column', axis=1), 
+                                                    processed_data['target_column'], 
+                                                    test_size=0.2, random_state=42)
+    ## can change how we split data into sets/how many
+    
     # model from scikit-learn library
     model = GaussianNB() # Gaussian Naive Bayes
     
-    #train (like train a dog) model that we choose (from scikit-learn library) specific to what we need
+    #train (like train a dog) model using our split data
     model.fit(X_train, y_train) # where X_train is the training data and y_train is the target labels
     
     # ################ CALL EVALUATION FUNCTION ################
+    evaluation_model(model, X_test, y_test)
+    ## change parameters if changed in test Split/other places
     
 if __name__ == '__main__':
     main()
