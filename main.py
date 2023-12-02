@@ -84,6 +84,8 @@ def main():
     processed_data = preprocess_data(combined_data)
 
     ## split data into training-testing sets
+    # x = precip + temp + bus route
+    # y = % buses late
     X = processed_data.drop('add_reliability_bool_col', axis=1)
     y = processed_data['add_reliability_bool_col']
 
