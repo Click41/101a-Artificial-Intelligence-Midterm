@@ -5,6 +5,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
+from sklearn.metrics import confusion_matrix
 
 # will have to add in more imports as we go along depending on what we use
 ###scikit-learn is what we are using
@@ -90,10 +91,8 @@ def main():
     # model from scikit-learn library
     model = GaussianNB() # Gaussian Naive Bayes
     
-
     #train (like train a dog) model that we choose (from scikit-learn library) specific to what we need
     model.fit(X_train, y_train) # where X_train is the training data and y_train is the target labels
-
 
     #Make the prediction
     y_pred_gnb = model.predict(X_test)
