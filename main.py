@@ -7,19 +7,15 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report
+from sklearn.metrics import accuracy_score
 
-# will have to add in more imports as we go along depending on what we use
-###scikit-learn is what we are using
-
-def preprocess_data(dataset):
+def preprocess_data(dataset, test_size=0.2, random_state=42):
     
-    ############where format our data to make sure everything matches for reading
-    ### can change according to what we need
-    
-     # Assuming dataset has features (X) and target variable (y)
-    X = dataset.drop('target_column', axis=1) ## reliable percentage
-    y = dataset['target_column'] ## unreliable percentage (Ai should be predicting)
-    ## i think correlates to X_train, X_test, y_train, y_test
+    # Assuming dataset has features (X) and target variable (y)
+    columns_to_drop = ['gtfs_route_id', 'route_category', 'mode_type', 'peak_offpeak_ind']
+    X = dataset.drop(columns=columns_to_drop, axis=1)  # Features (input)
+    y = dataset['unreliable_percentage']  # Target variable (output)
 
     # Identify numerical and categorical features
     numerical_features = X.select_dtypes(include=['int64', 'float64']).columns
@@ -27,35 +23,50 @@ def preprocess_data(dataset):
 
     # Create preprocessing pipeline
     numerical_transformer = Pipeline(steps=[
-        ('imputer', SimpleImputer(strategy='mean')),
-        ('scaler', StandardScaler())
+        ('imputer', SimpleImputer(strategy='mean')),  # Fill missing values with mean
+        ('scaler', StandardScaler())  # Standardize numerical features
     ])
 
     categorical_transformer = Pipeline(steps=[
-        ('imputer', SimpleImputer(strategy='most_frequent')),
-        ('onehot', OneHotEncoder(handle_unknown='ignore'))
+        ('imputer', SimpleImputer(strategy='most_frequent')),  # Fill missing values with most frequent value
+        ('onehot', OneHotEncoder(handle_unknown='ignore'))  # One-hot encoding for categorical variables
     ])
 
+    # Applies the appropriate preprocessing steps to the respective types of features.
     preprocessor = ColumnTransformer(
         transformers=[
             ('num', numerical_transformer, numerical_features),
             ('cat', categorical_transformer, categorical_features)
         ])
 
-    # Preprocess the data
+    # Preprocess the entire dataset
     X_preprocessed = preprocessor.fit_transform(X)
 
-    # Assuming you want to concatenate the preprocessed features and target variable
-    dataset_preprocessed = pd.concat([pd.DataFrame(X_preprocessed), y], axis=1)
+    # Split the data into training and testing sets
+    X_train, X_test, y_train, y_test = train_test_split(X_preprocessed, y, test_size=test_size, random_state=random_state)
     
-    return dataset_preprocessed
-    
+    return X_train, X_test, y_train, y_test
 
 def evaluation_model(model, X_test, y_test): ## if have other parameters, add them in here
-        
-    # where we evaluate the model
-    ## predictions
-    ## accuracy
+
+    #Make the prediction
+    y_pred_gnb = model.predict(X_test)
+    
+    # classification report
+    class_report = classification_report(y_test, y_pred_gnb)
+    print("Classification Report:", class_report)
+
+    #Use confusion matrix and classification report to check the model's performance
+    conf_matrix = confusion_matrix(y_test, y_pred_gnb)
+    print("Confusion Matrix:", conf_matrix)
+    
+    # accuracy score
+    accuracy = model.score(X_test, y_test)
+    print("Accuracy:", accuracy)
+    
+    # accuracy score 2
+    accuracy2 = accuracy_score(y_test, y_pred_gnb)
+    print("Accuracy2:", accuracy2)
         
     return model 
     
@@ -64,50 +75,34 @@ def main():
     # reliability datasets - the col reliability_percentage = % of buses that are ON TIME (1 - % = late)
     # unreliable_percentage = % of times/buses that are late
     # now contains columns for temp in Celsius/precip for that day 
+    
     reliability_553 = pd.read_csv('./data/MBTA_Bus_Reliability_Bus553.csv')
-    reliability = pd.read_csv('./data/MBTA_Bus_Reliability.csv')
     # alerts - gives dates buses are receiving alerts (particularly for delays) + reason
+    
     alerts = pd.read_csv('data/BUS_Service_Alerts.csv') 
     # gives weather (avg temp + precipitation) for boston area
+    
     boston_weather = pd.read_csv('data/boston_weather.csv')
     
+    # one that we use for most data accuracy
+    reliability = pd.read_csv('./data/MBTA_Bus_Reliability.csv')
 
-    ## can takeout if we decide to use all 4 separately, just make sure to change function
-
-    ### add in extra lines for more data
+    ### adds in extra lines for more data
     print(reliability.head())
 
     # ################ CALL PREPROCESSING FUNCTION ################
-    processed_data = preprocess_data(reliability)
-
-    ## split data into training-testing sets
-    # x = precip + temp + bus route
-    # y = % buses late
-    X = processed_data.drop('add_reliability_bool_col', axis=1)
-    y = processed_data['add_reliability_bool_col']
-
-    #split data into train-test 80-20
-    X_train, X_test, y_train, y_test = train_test_split(X,y, test_size = 0.2)
-
+    # Preprocesses the entire dataset
+    X_train, X_test, y_train, y_test = preprocess_data(reliability)    
+    
+    # ################ MODEL TRAINING ################
     # model from scikit-learn library
     model = GaussianNB() # Gaussian Naive Bayes
     
     #train (like train a dog) model that we choose (from scikit-learn library) specific to what we need
     model.fit(X_train, y_train) # where X_train is the training data and y_train is the target labels
-
-    #Make the prediction
-    y_pred_gnb = model.predict(X_test)
-
-    #Use confusion matrix and classification report to check the model's performance
-    conf_matrix = confusion_matrix(y_test, y_pred_gnb)
-
-    # Display the confusion matrix
-    print("Confusion Matrix:")
-    print(conf_matrix)
     
     # ################ CALL EVALUATION FUNCTION ################
     evaluation_model(model, X_test, y_test)
-    ## change parameters if changed in test Split/other places
     
 if __name__ == '__main__':
     main()
