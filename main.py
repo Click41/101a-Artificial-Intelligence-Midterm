@@ -6,16 +6,16 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, f1_score, accuracy_score, precision_score
 
 # will have to add in more imports as we go along depending on what we use
 ###scikit-learn is what we are using
 
 def preprocess_data(dataset):
-    
+
     ############where format our data to make sure everything matches for reading
     ### can change according to what we need
-    
+
      # Assuming dataset has features (X) and target variable (y)
     X = dataset.drop('target_column', axis=1) ## reliable percentage
     y = dataset['target_column'] ## unreliable percentage (Ai should be predicting)
@@ -47,30 +47,30 @@ def preprocess_data(dataset):
 
     # Assuming you want to concatenate the preprocessed features and target variable
     dataset_preprocessed = pd.concat([pd.DataFrame(X_preprocessed), y], axis=1)
-    
+
     return dataset_preprocessed
-    
+
 
 def evaluation_model(model, X_test, y_test): ## if have other parameters, add them in here
-        
+
     # where we evaluate the model
     ## predictions
     ## accuracy
-        
-    return model 
-    
+
+    return model
+
 def main():
     # ################ LOADING DATA SETS ################
     # reliability datasets - the col reliability_percentage = % of buses that are ON TIME (1 - % = late)
     # unreliable_percentage = % of times/buses that are late
-    # now contains columns for temp in Celsius/precip for that day 
+    # now contains columns for temp in Celsius/precip for that day
     reliability_553 = pd.read_csv('./data/MBTA_Bus_Reliability_Bus553.csv')
     reliability = pd.read_csv('./data/MBTA_Bus_Reliability.csv')
     # alerts - gives dates buses are receiving alerts (particularly for delays) + reason
-    alerts = pd.read_csv('data/BUS_Service_Alerts.csv') 
+    alerts = pd.read_csv('data/BUS_Service_Alerts.csv')
     # gives weather (avg temp + precipitation) for boston area
     boston_weather = pd.read_csv('data/boston_weather.csv')
-    
+
 
     ## can takeout if we decide to use all 4 separately, just make sure to change function
 
@@ -91,7 +91,7 @@ def main():
 
     # model from scikit-learn library
     model = GaussianNB() # Gaussian Naive Bayes
-    
+
     #train (like train a dog) model that we choose (from scikit-learn library) specific to what we need
     model.fit(X_train, y_train) # where X_train is the training data and y_train is the target labels
 
@@ -104,10 +104,20 @@ def main():
     # Display the confusion matrix
     print("Confusion Matrix:")
     print(conf_matrix)
-    
+
+    # accuracy
+    accuracy = accuracy_score(y_test, y_pred_gnb)
+    print('accuracy', accuracy)
+
+    # precison
+    precison = precision_score(y_test, y_pred_gnb)
+
+    # f1 score
+    f1_score = f1_score(y_test, y_pred_gnb)
+
     # ################ CALL EVALUATION FUNCTION ################
     evaluation_model(model, X_test, y_test)
     ## change parameters if changed in test Split/other places
-    
+
 if __name__ == '__main__':
     main()
