@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
@@ -72,21 +73,21 @@ def main():
     # ################ LOADING DATA SETS ################
     # reliability datasets - the col reliability_percentage = % of buses that are ON TIME (1 - % = late)
     # unreliable_percentage = % of times/buses that are late
+    
     # now contains columns for temp in Celsius/precip for that day 
-    
     reliability_553 = pd.read_csv('./data/MBTA_Bus_Reliability_Bus553.csv')
+    
     # alerts - gives dates buses are receiving alerts (particularly for delays) + reason
-    
     alerts = pd.read_csv('data/BUS_Service_Alerts.csv') 
-    # gives weather (avg temp + precipitation) for boston area
     
+    # gives weather (avg temp + precipitation) for boston area
     boston_weather = pd.read_csv('data/boston_weather.csv')
     
     # one that we use for most data accuracy
     reliability = pd.read_csv('./data/MBTA_Bus_Reliability.csv')
 
     ### adds in extra lines for more data
-    print(reliability.head())
+    # print(reliability.head())
 
     # ################ CALL PREPROCESSING FUNCTION ################
     # Preprocesses the entire dataset
@@ -96,11 +97,40 @@ def main():
     # model from scikit-learn library
     model = GaussianNB() # Gaussian Naive Bayes
 
+    ################ TROUBLE SHOOTING ################
+    # Convert NumPy array to Pandas DataFrame
+    # X_train_df = pd.DataFrame(X_train)
+    # y_train_df = pd.DataFrame(y_train)
+    
+    # print(y_train)
+    
+    # print("Data type of X_train:", X_train.dtype)
+    # print("Data type of y_train:", y_train.dtype)
+    ## they are both float64
+    
+    # Check for NaN or infinity in X_train
+    # print("NaN in X_train:", y_train_df.isna().any().any())
+    # print("Infinity in X_train:", y_train_df.isna().any().any())
+    
+    # to find which column has NaN
+    # print("NaN in each column of y_train:")
+    # for col in y_train_df.columns:
+    #     print(f"{col}: {y_train_df[col].isna().any()}")
+    
+    # print("NaN in each column of X_train:")
+    # for col in X_train_df.columns:
+    #     print(f"{col}: {X_train_df[col].isna().any()}")
+
+    # # Check for NaN or infinity in y_train
+    # print("NaN in y_train:", np.isnan(y_train_df).any())
+    # print("Infinity in y_train:", np.isinf(y_train_df).any())
+    ##################################################
+
     #train (like train a dog) model that we choose (from scikit-learn library) specific to what we need
     model.fit(X_train, y_train) # where X_train is the training data and y_train is the target labels
     
     # ################ CALL EVALUATION FUNCTION ################
-    evaluation_model(model, X_test, y_test)
+    # evaluation_model(model, X_test, y_test)
     
 if __name__ == '__main__':
     main()
