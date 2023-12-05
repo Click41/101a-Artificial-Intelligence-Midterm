@@ -6,9 +6,8 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, f1_score, accuracy_score, precision_score
 from sklearn.metrics import classification_report
-from sklearn.metrics import accuracy_score
 
 def preprocess_data(dataset, test_size=0.2, random_state=42):
     
@@ -97,7 +96,7 @@ def main():
     # ################ MODEL TRAINING ################
     # model from scikit-learn library
     model = GaussianNB() # Gaussian Naive Bayes
-    
+
     #train (like train a dog) model that we choose (from scikit-learn library) specific to what we need
     model.fit(X_train, y_train) # where X_train is the training data and y_train is the target labels
     
