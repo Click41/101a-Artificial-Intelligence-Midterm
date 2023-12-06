@@ -11,7 +11,7 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 def preprocess_data(dataset, test_size=0.2, random_state=42):
     
     # Assuming dataset has features (X) and target variable (y)
-    columns_to_drop = ['gtfs_route_id', 'mode_type', 'peak_offpeak_ind']
+    columns_to_drop = ['gtfs_route_id', 'peak_offpeak_ind', 'unreliable_percentage', 'reliability_percentage']
     X = dataset.drop(columns=columns_to_drop, axis=1)  # Features (input)
     y = dataset['unreliable_percentage']  # Target variable (output)
 
@@ -43,7 +43,7 @@ def preprocess_data(dataset, test_size=0.2, random_state=42):
     # Split the data into training and testing sets
     X_train, X_test, y_train, y_test = train_test_split(X_preprocessed, y, test_size=test_size, random_state=random_state)
     
-    return X_train, X_test, y_train, y_test
+    return X_train, X_test, y_train, y_test, preprocessor
 
 def evaluation_model(model, X_test, y_test):
     # Make predictions
@@ -79,7 +79,7 @@ def main():
 
     # ################ CALL PREPROCESSING FUNCTION ################
     # Preprocesses the entire dataset
-    X_train, X_test, y_train, y_test = preprocess_data(reliability)    
+    X_train, X_test, y_train, y_test, preprocessor = preprocess_data(reliability)
     
     # ################ MODEL TRAINING ################
     # model from scikit-learn library
@@ -90,6 +90,30 @@ def main():
     
     # ################ CALL EVALUATION FUNCTION ################
     evaluation_model(model, X_test, y_test)
+
+    # ################ USER INPUT ################
+    print("\nWelcome to the MBTA Bus Delay Predictor!\nPlease input all necessary information when prompted.\nWe hope you get to your destination on time!\n")
+    
+    # Get user input for date of service
+    service_date = input("Enter your date of service in format yyyy-mm-dd: ")
+    
+    # Will always be bus
+    mode_type = "Bus"
+    
+    # Get user input for temperature
+    user_input_temp = float(input("Enter the temperature: "))  # assumes the user enters a valid float
+
+    # Get user input for precipitation
+    user_input_precip = float(input("Enter the precipitation: "))  # assumes the user enters a valid float
+
+    # Preprocess the user input
+    user_input_preprocessed = preprocessor.transform(pd.DataFrame({'service_date': [service_date], 'mode_type': [mode_type], 'average_temp': [user_input_temp], 'precipitation': [user_input_precip]}))
+
+    # Make the prediction using the trained model
+    user_prediction = model.predict(user_input_preprocessed)
+
+    # Print or use the user prediction as needed
+    print("User Prediction:", user_prediction)
     
 if __name__ == '__main__':
     main()
